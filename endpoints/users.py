@@ -1,14 +1,16 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Query, Request, Depends
 from typing import List
 from db import get_connection, close_connection
 from models import User
 from logger import get_logger
 
+from auth import verify_token
+
 logger = get_logger("endpoints.users")
 router = APIRouter()
 
 @router.get("/users", response_model=List[User])
-async def get_users():
+async def get_users(request: Request, token_check=Depends(verify_token)):
     logger.info("Requesting all users")
     conn = pool = None
     try:
@@ -25,7 +27,7 @@ async def get_users():
             await close_connection(conn, pool)
 
 @router.get("/users/{user_id}", response_model=User)
-async def get_user(user_id: int):
+async def get_user(user_id: int, request: Request, token_check=Depends(verify_token)):
     logger.info(f"Requesting user with ID {user_id}")
     conn = pool = None
     try:
