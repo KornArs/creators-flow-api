@@ -1,9 +1,9 @@
 from fastapi import APIRouter, HTTPException, Query 
 from typing import List, Optional 
 import aiomysql 
-from webapp.db import get_connection, close_connection
-from webapp.models import Order, OrderSummary, Video
-from webapp.logger import get_logger 
+from db import get_connection, close_connection
+from models import Order, OrderSummary, Video
+from logger import get_logger 
  
 # Создаем логгер для данного модуля 
 logger = get_logger('endpoints.orders') 

@@ -5,8 +5,8 @@ import time
 from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.requests import Request
 
-from webapp.endpoints import users, orders
-from webapp.logger import main_logger
+from endpoints import users, orders
+from logger import main_logger
 
 app = FastAPI(title="Creators Flow API", description="Backend API for Creators Flow WebApp")
 

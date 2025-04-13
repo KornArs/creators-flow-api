@@ -1,8 +1,8 @@
 from fastapi import APIRouter, HTTPException
 from typing import List
-from webapp.db import get_connection, close_connection
-from webapp.models import User
-from webapp.logger import get_logger
+from db import get_connection, close_connection
+from models import User
+from logger import get_logger
 
 logger = get_logger("endpoints.users")
 router = APIRouter()

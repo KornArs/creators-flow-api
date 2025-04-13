@@ -1,6 +1,6 @@
 import aiomysql
-from webapp.logger import get_logger
-from webapp.settings import MYSQL_HOST, MYSQL_PORT, MYSQL_USER, MYSQL_PASSWORD, MYSQL_DATABASE
+from logger import get_logger
+from settings import MYSQL_HOST, MYSQL_PORT, MYSQL_USER, MYSQL_PASSWORD, MYSQL_DATABASE
 
 logger = get_logger("db")
 
