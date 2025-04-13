@@ -8,7 +8,39 @@ from starlette.requests import Request
 from endpoints import users, orders
 from logger import main_logger
 
-app = FastAPI(title="Creators Flow API", description="Backend API for Creators Flow WebApp")
+app = FastAPI(
+    title="Creators Flow API",
+    description="Backend API for Creators Flow WebApp",
+    version="0.1.0"
+)
+
+# --- Swagger API Key support ---
+from fastapi.openapi.utils import get_openapi
+
+def custom_openapi():
+    if app.openapi_schema:
+        return app.openapi_schema
+    openapi_schema = get_openapi(
+        title="Creators Flow API",
+        version="0.1.0",
+        description="Backend API for Creators Flow WebApp",
+        routes=app.routes,
+    )
+    openapi_schema["components"]["securitySchemes"] = {
+        "APIKeyHeader": {
+            "type": "apiKey",
+            "in": "header",
+            "name": "Authorization"
+        }
+    }
+    for path in openapi_schema["paths"].values():
+        for method in path.values():
+            method["security"] = [{"APIKeyHeader": []}]
+    app.openapi_schema = openapi_schema
+    return app.openapi_schema
+
+app.openapi = custom_openapi
+# --------------------------------
 
 class LoggingMiddleware(BaseHTTPMiddleware):
     async def dispatch(self, request: Request, call_next):
